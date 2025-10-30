@@ -1,0 +1,30 @@
+# Core Dependencies
+pytest>=7.4.0
+hypothesis>=6.140.0
+docker>=6.1.0
+ollama>=0.1.0
+
+# NLP and Parsing
+spacy>=3.6.0
+jsonschema>=4.19.0
+
+# Quality Tools
+flake8>=6.0.0
+mypy>=1.5.0
+black>=23.0.0
+pylint>=3.0.0
+
+# Security and Analysis
+bandit>=1.7.5
+radon>=6.0.0
+
+# Utilities
+python-dotenv>=1.0.0
+colorama>=0.4.6
+tqdm>=4.66.0
+pyyaml>=6.0
+
+# Development
+pytest-cov>=4.1.0
+pytest-timeout>=2.1.0
+pytest-xdist>=3.3.0

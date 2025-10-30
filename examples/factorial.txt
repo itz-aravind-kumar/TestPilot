@@ -1,0 +1,24 @@
+Write a function called factorial that calculates the factorial of a non-negative integer.
+
+Function Name: factorial
+Parameter: n (integer, n >= 0)
+Return: integer (n!)
+
+Description:
+The factorial of a non-negative integer n is the product of all positive integers less than or equal to n.
+By definition, 0! = 1.
+
+Examples:
+- factorial(0) = 1
+- factorial(1) = 1
+- factorial(5) = 120
+- factorial(10) = 3628800
+
+Edge Cases:
+- Handle n = 0 (should return 1)
+- Handle n = 1 (should return 1)
+- Handle large values efficiently
+
+Constraints:
+- n >= 0
+- n <= 20 (to avoid overflow issues)

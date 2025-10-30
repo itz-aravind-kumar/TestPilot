@@ -1,0 +1,124 @@
+# ============================================
+# SENSITIVE FILES (NEVER COMMIT!)
+# ============================================
+.env
+*.key
+*_secret*
+*_private*
+
+# ============================================
+# PYTHON
+# ============================================
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# Distribution / packaging
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# ============================================
+# TESTING
+# ============================================
+htmlcov/
+.tox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+.hypothesis/
+.pytest_cache/
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# ============================================
+# VIRTUAL ENVIRONMENTS
+# ============================================
+venv/
+ENV/
+env/
+.venv/
+test_venv/
+
+# ============================================
+# IDEs
+# ============================================
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.spyderproject
+.spyproject
+.ropeproject
+
+# ============================================
+# PROJECT ARTIFACTS
+# ============================================
+artifacts/
+logs/
+.cache/
+*.log
+
+# But keep example artifacts
+!artifacts/.gitkeep
+!logs/.gitkeep
+
+# ============================================
+# OS SPECIFIC
+# ============================================
+.DS_Store
+Thumbs.db
+Desktop.ini
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+
+# ============================================
+# TEMPORARY FILES
+# ============================================
+*.tmp
+*.temp
+*.bak
+*.swp
+*~
+
+# ============================================
+# DOCKER
+# ============================================
+.dockerignore
+
+# ============================================
+# JUPYTER NOTEBOOKS (if added later)
+# ============================================
+.ipynb_checkpoints/
+*.ipynb_checkpoints
+
+# ============================================
+# BACKUP FILES
+# ============================================
+*.bak
+*.backup
+requirements.txt.bak
+.env.example.bak

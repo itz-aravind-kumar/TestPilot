@@ -1,0 +1,28 @@
+Write a function called merge_sorted_lists that merges two sorted lists into one sorted list.
+
+Function Name: merge_sorted_lists
+Parameters:
+- list1: List[int] (sorted in ascending order)
+- list2: List[int] (sorted in ascending order)
+Return: List[int] (merged sorted list)
+
+Description:
+Given two sorted lists, merge them into a single sorted list containing all elements from both lists.
+The function should maintain the sorted order and handle duplicate values.
+
+Examples:
+- merge_sorted_lists([1, 3, 5], [2, 4, 6]) = [1, 2, 3, 4, 5, 6]
+- merge_sorted_lists([], [1, 2, 3]) = [1, 2, 3]
+- merge_sorted_lists([1, 2, 3], []) = [1, 2, 3]
+- merge_sorted_lists([1, 2, 2, 3], [2, 3, 4]) = [1, 2, 2, 2, 3, 3, 4]
+
+Edge Cases:
+- One or both lists are empty
+- Lists of different lengths
+- Lists with duplicate values
+- Single element lists
+
+Constraints:
+- Both input lists are sorted in ascending order
+- Preserve duplicates in the output
+- Output must be sorted in ascending order

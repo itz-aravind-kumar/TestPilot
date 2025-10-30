@@ -1,0 +1,24 @@
+Write a function called is_palindrome that checks if a string is a palindrome.
+
+Function Name: is_palindrome
+Parameter: s (string)
+Return: boolean (True if palindrome, False otherwise)
+
+Description:
+A palindrome is a string that reads the same forward and backward, ignoring case and non-alphanumeric characters.
+
+Examples:
+- is_palindrome("racecar") = True
+- is_palindrome("hello") = False
+- is_palindrome("A man a plan a canal Panama") = True
+- is_palindrome("Was it a car or a cat I saw") = True
+
+Edge Cases:
+- Empty string (return True)
+- Single character (return True)
+- Strings with spaces and punctuation
+- Mixed case strings
+
+Constraints:
+- Ignore case (case-insensitive comparison)
+- Ignore non-alphanumeric characters (spaces, punctuation)
