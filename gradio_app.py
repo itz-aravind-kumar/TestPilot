@@ -427,9 +427,9 @@ def run_auto_tdd_wrapper(input_mode, natural_problem, func_name, func_desc, para
     yield from run_auto_tdd(problem)
 
 # Create Gradio Interface
-with gr.Blocks(title="Auto-TDD System", theme=gr.themes.Soft()) as demo:
+with gr.Blocks(title="Auto TDD — Make tests do the heavy lifting", theme=gr.themes.Soft()) as demo:
     gr.Markdown("""
-    # 🤖 Auto-TDD: Automated Test-Driven Development
+    # 🤖 Auto TDD — Make tests do the heavy lifting
     
     **Generate working code from natural language using AI + RL + Docker**
     
@@ -463,7 +463,7 @@ with gr.Blocks(title="Auto-TDD System", theme=gr.themes.Soft()) as demo:
                     value="""Write a Python function called calculate_factorial that takes a positive integer n and returns its factorial.
 
 Factorial of n (written as n!) is the product of all positive integers less than or equal to n.
-For example: 5! = 5 × 4 × 3 × 2 × 1 = 120
+For example: 5! = 5 x 4 x 3 x 2 x 1 = 120
 
 Examples:
 - calculate_factorial(0) returns 1
