@@ -263,7 +263,7 @@ def run_auto_tdd(problem_description):
             state.test_code
         )
         
-        # Store iterations
+        # Store iterations with full reward breakdown
         if refine_metadata.get('iterations'):
             for iteration in refine_metadata['iterations']:
                 state.iterations.append({
@@ -271,7 +271,8 @@ def run_auto_tdd(problem_description):
                     'passed': iteration.get('passed', 0),
                     'failed': iteration.get('failed', 0),
                     'reward': iteration.get('reward', 0),
-                    'pass_rate': iteration.get('pass_rate', 0)
+                    'pass_rate': iteration.get('pass_rate', 0),
+                    'reward_breakdown': iteration.get('reward_breakdown', {})  # NEW: Store full breakdown
                 })
                 iter_num = iteration.get('iteration', 0)
                 state.add_thought(f"Iteration {iter_num}: {iteration.get('passed', 0)} passed, {iteration.get('failed', 0)} failed, reward: {iteration.get('reward', 0):.2f}")
@@ -360,17 +361,130 @@ def run_auto_tdd(problem_description):
         )
 
 def format_iteration_table(iterations):
-    """Format iteration history as a table"""
+    """Format iteration history with detailed reward breakdown"""
     if not iterations:
         return "No iterations yet."
     
-    table = "| Iteration | Passed | Failed | Pass Rate | Reward |\n"
-    table += "|-----------|--------|--------|-----------|--------|\n"
+    # Enhanced reward breakdown display
+    output = "# 🎯 Iteration Results with Reward Breakdown\n\n"
+    
+    # Summary table with all dimensions
+    output += "## Quick Summary\n\n"
+    output += "| Iter | Tests | Pass Rate | Test | Partial | Quality | Efficiency | Improve | Conv | **Total** |\n"
+    output += "|------|-------|-----------|------|---------|---------|------------|---------|------|----------|\n"
     
     for it in iterations:
-        table += f"| {it['iteration']} | {it['passed']} | {it['failed']} | {it['pass_rate']:.1%} | {it['reward']:.2f} |\n"
+        passed = it['passed']
+        failed = it['failed']
+        total_tests = passed + failed
+        pass_rate = it['pass_rate']
+        total_reward = it['reward']
+        
+        # Extract reward breakdown if available
+        breakdown = it.get('reward_breakdown', {})
+        dimensions = breakdown.get('dimensions', {})
+        
+        if dimensions:
+            # Enhanced RL rewards (new system)
+            test_r = dimensions.get('test_passing', {}).get('reward', 0)
+            partial_r = dimensions.get('partial_correctness', {}).get('reward', 0)
+            quality_r = dimensions.get('code_quality', {}).get('reward', 0)
+            efficiency_r = dimensions.get('efficiency', {}).get('reward', 0)
+            improve_r = dimensions.get('improvement', {}).get('reward', 0)
+            conv_r = dimensions.get('convergence', {}).get('reward', 0)
+            
+            output += f"| {it['iteration']} | {passed}/{total_tests} | {pass_rate:.1%} | "
+            output += f"{test_r:.1f} | {partial_r:.1f} | {quality_r:.1f} | {efficiency_r:.1f} | "
+            output += f"{improve_r:.1f} | {conv_r:.1f} | **{total_reward:.1f}** |\n"
+        else:
+            # Basic reward (old system)
+            output += f"| {it['iteration']} | {passed}/{total_tests} | {pass_rate:.1%} | "
+            output += f"- | - | - | - | - | - | **{total_reward:.1f}** |\n"
     
-    return table
+    # Detailed breakdown for each iteration
+    output += "\n## Detailed Breakdown\n\n"
+    
+    for it in iterations:
+        iter_num = it['iteration']
+        passed = it['passed']
+        failed = it['failed']
+        total_tests = passed + failed
+        pass_rate = it['pass_rate']
+        total_reward = it['reward']
+        
+        output += f"### Iteration {iter_num}\n\n"
+        output += f"**Tests**: {passed}/{total_tests} passed ({pass_rate:.1%})\n\n"
+        
+        breakdown = it.get('reward_breakdown', {})
+        
+        if breakdown and breakdown.get('dimensions'):
+            dimensions = breakdown.get('dimensions', {})
+            penalties = breakdown.get('penalties', 0)
+            
+            output += f"**Total Reward**: {total_reward:.2f}/100.0\n\n"
+            output += "**Reward Contributions**:\n\n"
+            
+            # Progress bars for each dimension
+            dimension_info = {
+                'test_passing': ('Test Passing', 50, '🎯'),
+                'partial_correctness': ('Partial Correctness', 15, '📊'),
+                'code_quality': ('Code Quality', 10, '✨'),
+                'efficiency': ('Efficiency', 10, '⚡'),
+                'improvement': ('Improvement', 10, '📈'),
+                'convergence': ('Convergence', 5, '🏆')
+            }
+            
+            for dim_key, (dim_name, max_reward, emoji) in dimension_info.items():
+                if dim_key in dimensions:
+                    dim_data = dimensions[dim_key]
+                    reward = dim_data.get('reward', 0)
+                    
+                    # Create progress bar
+                    percentage = (reward / max_reward * 100) if max_reward > 0 else 0
+                    bar_length = int(percentage / 5)  # 20 chars = 100%
+                    bar = '█' * bar_length + '░' * (20 - bar_length)
+                    
+                    output += f"{emoji} **{dim_name}**: {bar} {reward:.1f}/{max_reward}\n"
+                    
+                    # Add dimension-specific details
+                    if dim_key == 'test_passing':
+                        output += f"   ↳ {passed}/{total_tests} tests passed\n"
+                    elif dim_key == 'partial_correctness' and 'average_similarity' in dim_data:
+                        avg_sim = dim_data['average_similarity']
+                        count = dim_data.get('similarity_count', 0)
+                        if count > 0:
+                            output += f"   ↳ Avg similarity: {avg_sim:.2f} across {count} failures\n"
+                    elif dim_key == 'code_quality':
+                        if 'complexity_score' in dim_data:
+                            complexity = dim_data['complexity_score']
+                            output += f"   ↳ Complexity score: {complexity:.2f}\n"
+                        if 'pythonic_patterns' in dim_data:
+                            patterns = dim_data['pythonic_patterns']
+                            if patterns:
+                                output += f"   ↳ Patterns: {', '.join(patterns[:3])}\n"
+                    elif dim_key == 'efficiency':
+                        if 'execution_time' in dim_data:
+                            exec_time = dim_data['execution_time']
+                            output += f"   ↳ Execution: {exec_time:.2f}s\n"
+                        if 'estimated_complexity' in dim_data:
+                            complexity = dim_data['estimated_complexity']
+                            output += f"   ↳ Estimated: {complexity}\n"
+                    elif dim_key == 'improvement' and 'improvement' in dim_data:
+                        improvement = dim_data['improvement']
+                        if improvement != 0:
+                            output += f"   ↳ Pass rate change: {improvement:+.1%}\n"
+                    
+                    output += "\n"
+            
+            if penalties != 0:
+                output += f"⚠️ **Penalties**: {penalties:.2f}\n\n"
+        else:
+            # Old system without breakdown
+            output += f"**Reward**: {total_reward:.2f} (basic scoring)\n\n"
+        
+        output += "---\n\n"
+    
+    return output
 
 def build_problem_from_structured(func_name, func_desc, params, return_type, examples, constraints):
     """Build natural language problem from structured inputs"""
