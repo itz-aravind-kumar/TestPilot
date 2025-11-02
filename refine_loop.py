@@ -10,6 +10,7 @@ from code_generator import CodeGenerator
 from logger import logger
 from config import Config
 from metrics import MetricsCollector
+from enhanced_rewards import EnhancedRewardCalculator
 
 @dataclass
 class RewardState:
@@ -121,6 +122,7 @@ class RefinementLoop:
         self.analyzer = FailureAnalyzer()
         self.generator = CodeGenerator()
         self.reward_calculator = RewardCalculator()
+        self.enhanced_reward_calculator = EnhancedRewardCalculator()  # NEW: Multi-dimensional rewards
         self.max_iterations = Config.MAX_ITERATIONS
         self.convergence_patience = Config.CONVERGENCE_PATIENCE
     
@@ -170,7 +172,7 @@ class RefinementLoop:
             quality_checker = QualityChecker()
             quality_result = quality_checker.check(code)
             
-            # Calculate reward
+            # Calculate reward (OLD: basic single-dimension)
             reward_state = RewardState(
                 test_result=test_result,
                 code=code,
@@ -180,7 +182,20 @@ class RefinementLoop:
                 code_quality=quality_result
             )
             
-            reward = self.reward_calculator.calculate_reward(reward_state)
+            basic_reward = self.reward_calculator.calculate_reward(reward_state)
+            
+            # Calculate enhanced multi-dimensional reward (NEW)
+            enhanced_reward, reward_breakdown = self.enhanced_reward_calculator.calculate_composite_reward(
+                test_result=test_result,
+                code=code,
+                iteration=iteration,
+                prev_pass_rate=prev_pass_rate,
+                execution_time=execution_time,
+                code_quality=quality_result
+            )
+            
+            # Use enhanced reward as primary signal
+            reward = enhanced_reward
             
             # Calculate pass rate for this iteration
             pass_rate = test_result.passed / max(test_result.total, 1)
@@ -216,6 +231,8 @@ class RefinementLoop:
                 'total': test_result.total,
                 'pass_rate': pass_rate,
                 'reward': reward,
+                'basic_reward': basic_reward,  # OLD single-dimension reward for comparison
+                'reward_breakdown': reward_breakdown,  # NEW: Multi-dimensional breakdown
                 'duration': execution_time
             })
             

@@ -1,0 +1,115 @@
+{
+  "iterations": [
+    {
+      "iteration": 1,
+      "passed": 28,
+      "failed": 10,
+      "total": 38,
+      "pass_rate": 0.7368421052631579,
+      "reward": 55.710526315789465,
+      "basic_reward": 18.289473684210527,
+      "reward_breakdown": {
+        "iteration": 1,
+        "dimensions": {
+          "test_passing": {
+            "reward": 36.84,
+            "pass_rate": 0.737,
+            "passed": 28,
+            "total": 38
+          },
+          "partial_correctness": {
+            "reward": 0.0,
+            "string_similarities": [],
+            "numeric_closeness": [],
+            "type_matches": 0,
+            "total_failures": 10,
+            "note": "No parseable expected/actual values"
+          },
+          "code_quality": {
+            "reward": 4.3,
+            "complexity_score": 1.0,
+            "pythonic_patterns": [],
+            "code_smells": [],
+            "has_docstring": true,
+            "has_type_hints": false
+          },
+          "efficiency": {
+            "reward": 7.2,
+            "execution_time": 1.717,
+            "time_score": 0.6,
+            "estimated_complexity": "O(1)"
+          },
+          "improvement": {
+            "reward": 7.37,
+            "prev_pass_rate": 0.0,
+            "improvement": 0.737
+          },
+          "convergence": {
+            "reward": 0.0,
+            "all_passed": false
+          }
+        },
+        "penalties": 0.0,
+        "total_reward": 55.71
+      },
+      "duration": 1.716728687286377
+    },
+    {
+      "iteration": 2,
+      "passed": 38,
+      "failed": 0,
+      "total": 38,
+      "pass_rate": 1.0,
+      "reward": 69.43157894736842,
+      "basic_reward": 36.828947368421055,
+      "reward_breakdown": {
+        "iteration": 2,
+        "dimensions": {
+          "test_passing": {
+            "reward": 50.0,
+            "pass_rate": 1.0,
+            "passed": 38,
+            "total": 38
+          },
+          "partial_correctness": {
+            "reward": 0.0,
+            "note": "All tests passed"
+          },
+          "code_quality": {
+            "reward": 4.6,
+            "complexity_score": 1.0,
+            "pythonic_patterns": [
+              "f_string",
+              "f_string"
+            ],
+            "code_smells": [],
+            "has_docstring": true,
+            "has_type_hints": false
+          },
+          "efficiency": {
+            "reward": 7.2,
+            "execution_time": 1.191,
+            "time_score": 0.6,
+            "estimated_complexity": "O(1)"
+          },
+          "improvement": {
+            "reward": 2.63,
+            "prev_pass_rate": 0.7368421052631579,
+            "improvement": 0.263
+          },
+          "convergence": {
+            "reward": 5.0,
+            "all_passed": true
+          }
+        },
+        "penalties": 0.0,
+        "total_reward": 69.43
+      },
+      "duration": 1.190915584564209
+    }
+  ],
+  "converged": true,
+  "final_reward": 69.43157894736842,
+  "best_iteration": 0,
+  "improvement_history": []
+}
