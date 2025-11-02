@@ -1,4 +1,5 @@
-# TestPilot - Auto Think..Test..Refactor..Repeat
+# TestPilot
+##_Auto Think..Test..Refactor..Repeat_
 
 <div align="center">
 
@@ -15,9 +16,9 @@
 
 ---
 
-## 🎯 What is Auto-TDD?
+## 🎯 What is TestPilot?
 
-**Auto-TDD** is an intelligent system that automatically generates Python code from plain English descriptions using **Test-Driven Development (TDD)** principles, powered by cutting-edge **Large Language Models (LLMs)** and **Reinforcement Learning (RL)**.
+**TestPilot** is an intelligent system that automatically generates Python code from plain English descriptions using **Test-Driven Development (TDD)** principles, powered by cutting-edge **Large Language Models (LLMs)** and **Reinforcement Learning (RL)**.
 
 ### The Problem It Solves
 
@@ -27,7 +28,7 @@ Writing production-ready code takes time:
 - ❌ **Debugging**: 20+ minutes fixing edge cases
 - ❌ **Total Time**: 65+ minutes per function
 
-### The Auto-TDD Solution
+### The TestPilot Solution
 
 - ✅ **Describe in English**: 1 minute
 - ✅ **AI Generation**: 2 minutes
