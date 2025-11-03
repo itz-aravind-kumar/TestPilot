@@ -137,7 +137,7 @@ copy .env.example .env
 
 **Step 4: Build Docker Sandbox**
 ```bash
-docker build -f Dockerfile.test -t auto-tdd-pytest:latest .
+docker build -f Dockerfile -t auto-tdd-pytest:latest .
 ```
 
 **Step 5: Run Your First Problem!**
